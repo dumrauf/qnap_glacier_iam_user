@@ -1,24 +1,4 @@
-resource "aws_sns_topic" "qnap_glacier_topic" {
-  name = "${var.qnap_vault_name}"
-}
-
-resource "aws_glacier_vault" "qnap_vault" {
-  name = "${var.qnap_vault_name}"
-
-  notification {
-    sns_topic = "${aws_sns_topic.qnap_glacier_topic.arn}"
-
-    events = [
-      "ArchiveRetrievalCompleted",
-      "InventoryRetrievalCompleted",
-    ]
-  }
-
-  tags {
-    created_by = "terraform"
-    part_of    = "qnap_glacier-${var.qnap_vault_name}"
-  }
-}
+data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "qnap_glacier_iam_user_policy_document" {
   # Global Glacier API permissions
@@ -31,7 +11,6 @@ data "aws_iam_policy_document" "qnap_glacier_iam_user_policy_document" {
       # "glacier:InitiateVaultLock",  # Not required for archive management
       # "glacier:AbortVaultLock",  # Not required for archive management
       # "glacier:CompleteVaultLock",  # Not required for archive management
-      # "glacier:CreateVault",  # Not required for archive management
       "glacier:ListVaults",
     ]
 
@@ -48,6 +27,7 @@ data "aws_iam_policy_document" "qnap_glacier_iam_user_policy_document" {
       # "glacier:AddTagsToVault",  # Not required for archive management
       "glacier:CompleteMultipartUpload",
 
+      "glacier:CreateVault",             # Annoyingly, required by QNAP implementation
       "glacier:DeleteArchive",
 
       # "glacier:DeleteVault",  # Not required for archive management
@@ -76,7 +56,9 @@ data "aws_iam_policy_document" "qnap_glacier_iam_user_policy_document" {
       "glacier:UploadMultipartPart",
     ]
 
-    resources = ["${aws_glacier_vault.qnap_vault.arn}"]
+    resources = [
+      "arn:aws:glacier:${var.region}:${data.aws_caller_identity.current.account_id}:vaults/${var.qnap_vault_name}",
+    ]
   }
 }
 
