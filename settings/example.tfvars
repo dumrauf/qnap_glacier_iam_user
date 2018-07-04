@@ -4,4 +4,4 @@ shared_credentials_file = "/path/to/.aws/credentials"
 
 profile = "<your-profile>"
 
-qnap_vault_name = "QNAP-Glacier-Vault"
+qnap_vault_name = "<your-QNAP-Glacier-vault>"

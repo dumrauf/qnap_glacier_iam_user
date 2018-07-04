@@ -26,9 +26,9 @@ shared_credentials_file = "/path/to/.aws/credentials"
 
 profile = "<your-profile>"
 
-qnap_vault_name = "QNAP-Glacier-Vault"
+qnap_vault_name = "<your-QNAP-Glacier-vault>"
 ```
-Here, you need to replace the example values with your settings. Note that you also need to update the `qnap_vault_name` to the name of an AWS Glacier Vault that does not exist.
+Here, you need to replace the example values with your settings. Note that you also need to update the `qnap_vault_name` to the name of an AWS Glacier Vault that does not exist. Moreover, the current value is _not a valid input_
 
 <div class="alert alert-info">
 Make sure that the `qnap_vault_name` refers to an AWS Glacier Vault which _does not exist_. The QNAP Glacier app assumes that it can create the given AWS Glacier vault.
