@@ -2,6 +2,8 @@
 
 This repository contains a Terraform module that creates an IAM user, including access keys, that can then be used in the [QNAP Glacier](https://www.qnap.com/en/how-to/tutorial/article/full-technical-qnap-cloudbackup-application-note) app.
 
+> For further information, see the corresponding article on [https://www.how-hard-can-it.be/qnap-glacier-iam-user/](https://www.how-hard-can-it.be/qnap-glacier-iam-user/).
+
 
 ## You Have
 
